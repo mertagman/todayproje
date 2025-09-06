@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}True Time | Reklam & Gayrimenkul Danışmanlık{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="traveltour-page-wrapper" id="traveltour-page-wrapper">
+    <div class="gdlr-core-page-builder-body">
+        <div class="gdlr-core-pbf-wrapper  gdlr-core-hide-in-mobile" id="div_aeb3_0" data-skin="Dark Search HP4">
+            <div class="gdlr-core-pbf-background-wrap">
+                <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js" id="div_aeb3_1"
+                    data-parallax-speed="0.2"></div>
+            </div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-element">
+                        <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix  gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr"
+                            id="div_aeb3_2">
+                            <div class="gdlr-core-title-item-title-wrap">
+                                <h3 class="gdlr-core-title-item-title gdlr-core-skin-title" id="h3_aeb3_0">{% if price_type == 'kiralik' %}Kiralık İlanlar{% else %}Satılık İlanlar{% endif %}<span
+                                        class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-element">
+                        <div
+                            class="tourmaster-tour-search-item clearfix tourmaster-style-column tourmaster-column-count-6 tourmaster-item-pdlr">
+                            <div class="tourmaster-tour-search-wrap ">
+                                <form class="tourmaster-form-field tourmaster-with-border"
+                                    action="{{ url_for('ilanlar') }}" method="GET">
+                                    <div class="tourmaster-tour-search-field tourmaster-tour-search-field-keywords"
+                                        style="width: 80%">
+                                        <label>Sözleşme No</label>
+                                        <div class="tourmaster-tour-search-field-inner">
+                                            <input name="search" type="text" value="{{ search_query }}" placeholder="Sözleşme numarasını girin..." required/>
+                                        </div>
+                                    </div>
+                                    <input class="tourmaster-tour-search-submit" type="submit" value="Ara" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-sidebar-wrapper ">
+            <div
+                class="gdlr-core-pbf-sidebar-container gdlr-core-line-height-0 clearfix gdlr-core-js gdlr-core-container">
+                <div
+                    class="gdlr-core-pbf-sidebar-content  gdlr-core-column-80 gdlr-core-pbf-sidebar-padding gdlr-core-line-height gdlr-core-column-extend-left">
+                    <div class="gdlr-core-pbf-background-wrap" id="div_aeb3_3"></div>
+                    <div class="gdlr-core-pbf-sidebar-content-inner">
+                        <div class="gdlr-core-pbf-element">
+                            {% if advertisements %}
+                            <div class="tourmaster-tour-item clearfix  tourmaster-tour-item-style-medium">
+                                <div class="tourmaster-tour-item-holder gdlr-core-js-2 clearfix" data-layout="fitrows">
+                                    {% for ad in advertisements %}
+                                    <div
+                                        class="tourmaster-item-list tourmaster-tour-medium tourmaster-item-mglr clearfix tourmaster-tour-frame gdlr-core-skin-e-background">
+                                        <div class="tourmaster-tour-medium-inner">
+                                            <div class="tourmaster-tour-thumbnail tourmaster-media-image">
+                                                <a href="{{ url_for('ilan_detay', id=ad.id, price_type=price_type) }}">
+                                                    {% if ad.img_1 %}
+                                                        <img src="{{ ad.img_1 }}" alt="{{ ad.title }}" width="600" height="700" style="object-fit: cover; height: 400px;" />
+                                                    {% else %}
+                                                        <img src="upload/no-image-600x700.jpg" alt="No Image" width="600" height="700" style="object-fit: cover; height: 400px;" />
+                                                    {% endif %}
+                                                </a>
+                                                {% if ad.is_gold %}
+                                                <div class="tourmaster-thumbnail-ribbon gdlr-core-outer-frame-element" style="color: #ffffff;background-color: #f97150;">
+                                                    <div class="tourmaster-thumbnail-ribbon-cornor" style="border-right-color: rgba(249, 113, 80, 0.5);"></div>Gold
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="tourmaster-tour-content-wrap clearfix">
+                                                <div class="tourmaster-content-left">
+                                                    <h3 class="tourmaster-tour-title gdlr-core-skin-title">
+                                                        <a href="{{ url_for('ilan_detay', id=ad.id, price_type=price_type) }}">{{ ad.title }}</a>
+                                                    </h3>
+                                                    <div class="tourmaster-tour-info-wrap clearfix">
+                                                        <div class="tourmaster-tour-info tourmaster-tour-info-duration-text">
+                                                            <i class="icon_tag_alt"></i>{{ ad.advertisement_type|title }}
+                                                        </div>
+                                                        {% if ad.bed_type %}
+                                                        <div class="tourmaster-tour-info tourmaster-tour-info-availability">
+                                                            <i class="fa fa-home"></i>{{ ad.bed_type }}
+                                                        </div>
+                                                        {% endif %}
+                                                        <div class="tourmaster-tour-info tourmaster-tour-info-availability">
+                                                            <i class="fa fa-eye"></i>{{ ad.view }} Görüntülenme
+                                                        </div>
+                                                    </div>
+                                                    <div class="tourmaster-tour-content">
+                                                        {% if ad.description %}
+                                                            {{ ad.description[:100] }}{% if ad.description|length > 100 %}...{% endif %}
+                                                        {% else %}
+                                                            {{ ad.adres if ad.adres else 'Detaylar için tıklayın...' }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="tourmaster-content-right tourmaster-center-tour-content">
+                                                    <div class="tourmaster-tour-price-wrap tourmaster-discount">
+                                                        {% if price_type == 'kiralik' %}
+                                                            {% if ad.rent_price %}
+                                                                <span class="tourmaster-tour-discount-price">{{ ad.rent_price|format_price }} ₺</span>
+                                                            {% else %}
+                                                                <span class="tourmaster-tour-discount-price">Fiyat Belirtilmemiş</span>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {% if ad.sale_price %}
+                                                                <span class="tourmaster-tour-discount-price">{{ ad.sale_price|format_price }} ₺</span>
+                                                            {% else %}
+                                                                <span class="tourmaster-tour-discount-price">Fiyat Belirtilmemiş</span>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </div>
+                                                    {% if ad.contract_id %}
+                                                    <div class="tourmaster-tour-rating" style="font-size: 12px; color: #666;">
+                                                        Sözleşme No: {{ ad.contract_id }}
+                                                    </div>
+                                                    {% endif %}
+                                                    <a class="tourmaster-tour-view-more" href="{{ url_for('ilan_detay', id=ad.id, price_type=price_type) }}">Detayı Gör</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <!-- Pagination -->
+                                {% if total_pages > 1 %}
+                                <div class="gdlr-core-pagination gdlr-core-style-circle gdlr-core-left-align tourmaster-item-pdlr">
+                                    {% if has_prev %}
+                                        <a class="prev page-numbers" href="{{ url_for('ilanlar', page=page-1, search=search_query, price_type=price_type) }}">‹</a>
+                                    {% endif %}
+                                    
+                                    {% for p in range(1, total_pages + 1) %}
+                                        {% if p == page %}
+                                            <span aria-current='page' class='page-numbers current'>{{ p }}</span>
+                                        {% else %}
+                                            <a class='page-numbers' href="{{ url_for('ilanlar', page=p, search=search_query, price_type=price_type) }}">{{ p }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if has_next %}
+                                        <a class="next page-numbers" href="{{ url_for('ilanlar', page=page+1, search=search_query, price_type=price_type) }}">›</a>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% else %}
+                            <!-- No Results Message -->
+                            <div class="tourmaster-tour-item clearfix">
+                                <div style="text-align: center; padding: 60px 20px;">
+                                    <i class="fa fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+                                    <h3 style="color: #666; margin-bottom: 10px;">
+                                        {% if search_query %}
+                                            "{{ search_query }}" için sonuç bulunamadı
+                                        {% else %}
+                                            Henüz ilan bulunmuyor
+                                        {% endif %}
+                                    </h3>
+                                    <p style="color: #999;">
+                                        {% if search_query %}
+                                            Farklı bir sözleşme numarası ile tekrar deneyin.
+                                        {% else %}
+                                            Yakında yeni ilanlar eklenecektir.
+                                        {% endif %}
+                                    </p>
+                                    {% if search_query %}
+                                        <a href="{{ url_for('ilanlar', price_type=price_type) }}" class="tourmaster-tour-view-more" style="margin-top: 20px;">Tüm İlanları Gör</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block pagejs %}{% endblock %}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Advertisement - True Time Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        .content-wrapper {
+            padding: 30px 0;
+        }
+        .edit-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .edit-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .edit-header h1 {
+            color: #333;
+            font-weight: 600;
+            margin: 0;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .form-section h5 {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-top: 10px;
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .btn-cancel {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">
+                <i class="fas fa-shield-alt me-2"></i>
+                Today Proje Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-arrow-left me-1"></i>Anasayfa
+                </a>
+                <a class="nav-link" href="{{ url_for('admin_logout') }}">
+                    <i class="fas fa-sign-out-alt me-1"></i>Çıkış Yap
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else 'success' if category == 'success' else 'info' }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="edit-card">
+                <div class="edit-header">
+                    <h1><i class="fas fa-edit me-2"></i>İlan Bilgilerini Güncelle</h1>
+                    <p class="text-muted mb-0">Update advertisement information</p>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h5><i class="fas fa-info-circle me-2"></i>Temel Bilgiler</h5>
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Başlık *</label>
+                            <input type="text" class="form-control" id="title" name="title" 
+                                   value="{{ advertisement.title }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="advertisement_type" class="form-label">İlan Tipi</label>
+                            <select class="form-select" id="advertisement_type" name="advertisement_type" required>
+                                <option value="devremülk" {{ 'selected' if advertisement.advertisement_type == 'devremülk' else '' }}>Devremülk</option>
+                                <option value="arsa" {{ 'selected' if advertisement.advertisement_type == 'arsa' else '' }}>Arsa</option>
+                                <option value="konut" {{ 'selected' if advertisement.advertisement_type == 'konut' else '' }}>Konut</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="adres" class="form-label">Adres</label>
+                            <input type="text" class="form-control" id="adres" name="adres" 
+                                   value="{{ advertisement.adres }}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="contract_id" class="form-label">Sözleşme No</label>
+                            <input type="text" class="form-control" id="contract_id" name="contract_id" 
+                                   value="{{ advertisement.contract_id }}" required>
+                        </div>
+                    </div>
+
+                    <!-- Property Details -->
+                    <div class="form-section">
+                        <h5><i class="fas fa-home me-2"></i>Özellikler</h5>
+                        
+                        <div class="mb-3">
+                            <label for="bed_type" class="form-label">Oda Tipi</label>
+                            <input type="text" class="form-control" id="bed_type" name="bed_type" 
+                                   value="{{ advertisement.bed_type }}" placeholder="örnek: 3+1" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="deed" class="form-label">Tapu Tipi</label>
+                            <select class="form-select" id="deed" name="deed" required>
+                                <option value="var" {{ 'selected' if advertisement.deed == 'var' else '' }}>Var</option>
+                                <option value="yok" {{ 'selected' if advertisement.deed == 'yok' else '' }}>Yok</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="is_gold" name="is_gold" 
+                                   {{ 'checked' if advertisement.is_gold else '' }}>
+                            <label class="form-check-label" for="is_gold">
+                                <i class="fas fa-star text-warning"></i> Gold İlan
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pricing -->
+                    <div class="form-section">
+                        <h5><i class="fas fa-dollar-sign me-2"></i>Fiyatlar</h5>
+                        
+                        <div class="mb-3">
+                            <label for="sale_price" class="form-label">Satış Fiyatı</label>
+                            <div class="input-group">
+                                <span class="input-group-text">₺</span>
+                                <input type="text" class="form-control price-input" id="sale_price" name="sale_price" 
+                                       value="{{ '{:,.0f}'.format(advertisement.sale_price).replace(',', '.') if advertisement.sale_price else '' }}" 
+                                       placeholder="5.950.000" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="rent_price" class="form-label">Kira Fiyatı</label>
+                            <div class="input-group">
+                                <span class="input-group-text">₺</span>
+                                <input type="text" class="form-control price-input" id="rent_price" name="rent_price" 
+                                       value="{{ '{:,.0f}'.format(advertisement.rent_price).replace(',', '.') if advertisement.rent_price else '' }}" 
+                                       placeholder="15.000" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Images -->
+                    <div class="form-section">
+                        <h5><i class="fas fa-images me-2"></i>Resimler</h5>
+                        
+                        <div class="mb-3">
+                            <label for="img_1" class="form-label">Resim 1</label>
+                            <input type="file" class="form-control" id="img_1" name="img_1" accept="image/*">
+                            {% if advertisement.img_1 %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Mevcut resim: {{ advertisement.img_1 }}</small>
+                                    <img src="{{ advertisement.img_1 }}" class="image-preview" alt="Image 1 Preview">
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="img_2" class="form-label">Resim 2</label>
+                            <input type="file" class="form-control" id="img_2" name="img_2" accept="image/*">
+                            {% if advertisement.img_2 %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Mevcut resim: {{ advertisement.img_2 }}</small>
+                                    <img src="{{ advertisement.img_2 }}" class="image-preview" alt="Image 2 Preview">
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="img_3" class="form-label">Resim 3</label>
+                            <input type="file" class="form-control" id="img_3" name="img_3" accept="image/*">
+                            {% if advertisement.img_3 %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Mevcut resim: {{ advertisement.img_3 }}</small>
+                                    <img src="{{ advertisement.img_3 }}" class="image-preview" alt="Image 3 Preview">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Descriptions -->
+                    <div class="form-section">
+                        <h5><i class="fas fa-align-left me-2"></i>Açıklamalar</h5>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Açıklama (Türkçe)</label>
+                            <textarea class="form-control" id="description" name="description" rows="4">{{ advertisement.description }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description_en" class="form-label">Açıklama (İngilizce)</label>
+                            <textarea class="form-control" id="description_en" name="description_en" rows="4">{{ advertisement.description_en }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description_ar" class="form-label">Açıklama (Arapça)</label>
+                            <textarea class="form-control" id="description_ar" name="description_ar" rows="4">{{ advertisement.description_ar }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ advertisement.id }})">
+                            <i class="fas fa-trash me-2"></i>Bu İlanı Sil
+                        </button>
+                        <div class="d-flex gap-2">
+                            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary btn-cancel">
+                                <i class="fas fa-times me-2"></i>İptal
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-save">
+                                <i class="fas fa-save me-2"></i>Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Price formatting functionality
+        function formatPrice(value) {
+            // Remove all non-digit characters
+            const cleanValue = value.replace(/\D/g, '');
+            if (cleanValue === '') return '';
+            
+            // Add dots for thousands separator
+            return cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        function unformatPrice(value) {
+            // Remove dots to get clean number
+            return value.replace(/\./g, '');
+        }
+
+        // Add price formatting to all price inputs
+        document.querySelectorAll('.price-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const cursorPosition = this.selectionStart;
+                const oldLength = this.value.length;
+                
+                this.value = formatPrice(this.value);
+                
+                // Adjust cursor position after formatting
+                const newLength = this.value.length;
+                const newCursorPosition = cursorPosition + (newLength - oldLength);
+                this.setSelectionRange(newCursorPosition, newCursorPosition);
+            });
+
+            // Store unformatted value in a hidden field before form submission
+            input.addEventListener('blur', function() {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = this.name + '_raw';
+                hiddenInput.value = unformatPrice(this.value);
+                
+                // Remove existing hidden input if any
+                const existingHidden = document.querySelector(`input[name="${this.name}_raw"]`);
+                if (existingHidden) {
+                    existingHidden.remove();
+                }
+                
+                this.parentNode.appendChild(hiddenInput);
+            });
+        });
+
+        // Image preview functionality for file uploads
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            if (input.name.startsWith('img_')) {
+                input.addEventListener('change', function() {
+                    const existingPreview = this.parentNode.querySelector('.new-image-preview');
+                    if (existingPreview) {
+                        existingPreview.remove();
+                    }
+                    
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'image-preview new-image-preview';
+                            img.alt = 'New Image Preview';
+                            input.parentNode.appendChild(img);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            }
+        });
+
+        // Delete confirmation function
+        function confirmDelete(adId) {
+            if (confirm('Bu ilanı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                // Create a form to submit DELETE request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/advertisement/${adId}/delete`;
+                
+                // Add CSRF token if needed (you might want to add this)
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_method';
+                csrfInput.value = 'DELETE';
+                form.appendChild(csrfInput);
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+</body>
+</html>
