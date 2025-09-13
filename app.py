@@ -345,8 +345,7 @@ def set_language_route(lang):
     """Set language and redirect back to previous page or home"""
     if lang in ['tr', 'en', 'ar']:
         set_language(lang)
-        flash(f'Language changed to {get_text("turkish" if lang == "tr" else "english" if lang == "en" else "arabic")}', 'success')
-    
+        
     # Redirect back to the page they came from or home
     return redirect(request.referrer or url_for('index'))
 
