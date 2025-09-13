@@ -81,9 +81,15 @@
                                 <li class="menu-item"><a href="/iletisim">{{ get_text('contact') }}</a></li>
                                 <li class="menu-item menu-item-has-children"><a href="#">{{ get_text('turkish' if current_language == 'tr' else 'english' if current_language == 'en' else 'arabic') }}</a>
                                     <ul class="sub-menu">
+                                        {% if current_language != 'en' %}
                                         <li class="menu-item"><a href="{{ url_for('set_language_route', lang='en') }}">{{ get_text('english') }}</a></li>
+                                        {% endif %}
+                                        {% if current_language != 'ar' %}
                                         <li class="menu-item"><a href="{{ url_for('set_language_route', lang='ar') }}">{{ get_text('arabic') }}</a></li>
+                                        {% endif %}
+                                        {% if current_language != 'tr' %}
                                         <li class="menu-item"><a href="{{ url_for('set_language_route', lang='tr') }}">{{ get_text('turkish') }}</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
 
@@ -140,15 +146,21 @@
                                     <li class="menu-item  menu-item-has-children traveltour-normal-menu"><a href="#"
                                             class="sf-with-ul-pre">{{ get_text('turkish' if current_language == 'tr' else 'english' if current_language == 'en' else 'arabic') }}</a>
                                         <ul class="sub-menu">
+                                            {% if current_language != 'en' %}
                                             <li class="menu-item" data-size="60"><a
                                                     href="{{ url_for('set_language_route', lang='en') }}">{{ get_text('english') }}</a>
                                             </li>
+                                            {% endif %}
+                                            {% if current_language != 'ar' %}
                                             <li class="menu-item" data-size="60"><a
                                                     href="{{ url_for('set_language_route', lang='ar') }}">{{ get_text('arabic') }}</a>
                                             </li>
+                                            {% endif %}
+                                            {% if current_language != 'tr' %}
                                             <li class="menu-item" data-size="60"><a
                                                     href="{{ url_for('set_language_route', lang='tr') }}">{{ get_text('turkish') }}</a>
                                             </li>
+                                            {% endif %}
                                         </ul>
                                     </li>
                                 </ul>
