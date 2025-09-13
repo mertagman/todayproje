@@ -58,6 +58,242 @@ def format_price_display(price):
 # Add template filter for price formatting
 app.jinja_env.filters['format_price'] = format_price_display
 
+# Language management
+def get_language():
+    """Get current language from session, default to Turkish"""
+    return session.get('language', 'tr')
+
+def set_language(lang):
+    """Set language in session"""
+    session['language'] = lang
+
+# Language texts mapping
+LANGUAGE_TEXTS = {
+    'tr': {
+        'home': 'Anasayfa',
+        'about': 'Hakkımızda',
+        'advertisements': 'İlanlar',
+        'for_sale': 'Satılık',
+        'for_rent': 'Kiralık',
+        'contact': 'İLETİŞİM',
+        'turkish': 'Türkçe',
+        'english': 'English',
+        'arabic': 'عربي',
+        'call_us': 'Bizi Arayın',
+        'email': 'Email',
+        'quick_menu': 'Hızlı Menü',
+        'for_sale_ads': 'Satılık İlanlar',
+        'for_rent_ads': 'Kiralık İlanlar',
+        'we_are_here': 'Sizin İçin Buradayız',
+        'we_offer_services': 'Herkes için uygun hizmetler sunuyoruz',
+        'all_rights_reserved': '© 2025 Today Proje Gayrimenkul | Tüm Hakları Saklıdır.',
+        'search': 'Ara...',
+        'search_placeholder': 'Ara...',
+        'investment_advisor': 'Yatırım Danışmanınız',
+        'help_evaluate_investments': 'Yatırımlarınızı değerlendirmenize yardımcı oluyoruz',
+        'real_estate_consulting': 'Gayrimenkul Danışmanlık',
+        'popular_ads': 'Popüler İlanlar',
+        'recommended_ads': 'Önerilen İlanlar',
+        'view_details': 'Detayları Görüntüle',
+        'price': 'Fiyat',
+        'views': 'Görüntülenme',
+        'gold_ad': 'Altın İlan',
+        'view_all': 'Tümünü Gör',
+        'suitable_consulting': 'Uygun Danışmalık',
+        'suitable_consulting_desc': 'Uygun danışmalık hizmeti sunuyoruz',
+        'quick_support': 'Hızlı Destek',
+        'quick_support_desc': 'Bir telefon uzağınızdayız',
+        'investment_needs': 'Yatırım İhtiyaçlarınız İçin',
+        'contact_us': 'Bizimle iletişime geçin',
+        'monthly': 'Aylık',
+        'about_us': 'Hakkımızda',
+        'about_description': 'Gayrimenkul sektöründe uzmanlaşmış bir reklam ve danışmanlık ajansıyız. Müşterilerimize, modern pazarlama stratejileri ve yenilikçi çözümler sunarak gayrimenkul projelerini en etkili şekilde tanıtmalarına yardımcı oluyoruz. Deneyimli ekibimiz, sektörün dinamiklerini yakından takip ederek, markalarınıza değer katacak yaratıcı ve sonuç odaklı kampanyalar geliştirir. Amacımız, sadece bir hizmet sağlayıcı değil, müşterilerimizin güvenilir bir iş ortağı olarak onların başarılarına katkıda bulunmaktır.',
+        'our_vision': 'Vizyonumuz',
+        'vision_description': 'Gayrimenkul sektöründe, reklam ve danışmanlık hizmetlerinde fark yaratan, inovatif çözümler sunan ve sektördeki dönüşümlere öncülük eden lider bir marka olmak. Müşterilerimizin hedeflerine ulaşmalarını sağlayarak, sektördeki en güvenilir ve tercih edilen iş ortağı olarak konumlanmak.',
+        'our_mission': 'Misyonumuz',
+        'mission_description': 'Müşterilerimize, gayrimenkul sektöründe rekabet avantajı sağlayacak yaratıcı ve etkili pazarlama çözümleri sunmak. Her projede maksimum verimliliği ve başarıyı hedefleyerek, müşteri memnuniyetini en üst düzeyde tutmak. Yenilikçi yaklaşımlarımızla sektöre değer katmak ve müşterilerimizin uzun vadeli başarılarına katkıda bulunmak.',
+        'for_sale_ads': 'Satılık İlanlar',
+        'for_rent_ads': 'Kiralık İlanlar',
+        'contract_number': 'Sözleşme No',
+        'contract_number_placeholder': 'Sözleşme numarasını girin...',
+        'search_button': 'Ara',
+        'price_not_specified': 'Fiyat Belirtilmemiş',
+        'click_for_details': 'Detaylar için tıklayın...',
+        'view_details': 'Detayı Gör',
+        'no_results_found': 'için sonuç bulunamadı',
+        'no_ads_yet': 'Henüz ilan bulunmuyor',
+        'try_different_contract': 'Farklı bir sözleşme numarası ile tekrar deneyin.',
+        'new_ads_coming_soon': 'Yakında yeni ilanlar eklenecektir.',
+        'view_all_ads': 'Tüm İlanları Gör',
+        'room_type': 'Oda Tipi',
+        'ad_type': 'İlan Tipi',
+        'not_specified': 'Belirtilmemiş',
+        'ad_details': 'İlan Detayı',
+        'contact_for_details': 'Detaylı bilgi için iletişime geçiniz.',
+        'photos': 'Fotoğraflar',
+        'rent_price': 'Kira Fiyatı',
+        'sale_price': 'Satış Fiyatı',
+        'monthly_rent': 'Aylık',
+        'contact': 'İletişim',
+        'phone': 'Telefon',
+        'address': 'Adres',
+        'view_on_google_maps': 'Google Haritada Gör'
+    },
+    'en': {
+        'home': 'Home',
+        'about': 'About Us',
+        'advertisements': 'Advertisements',
+        'for_sale': 'For Sale',
+        'for_rent': 'For Rent',
+        'contact': 'Contact',
+        'turkish': 'Türkçe',
+        'english': 'English',
+        'arabic': 'عربي',
+        'call_us': 'Call Us',
+        'email': 'Email',
+        'quick_menu': 'Quick Menu',
+        'for_sale_ads': 'For Sale Ads',
+        'for_rent_ads': 'For Rent Ads',
+        'we_are_here': 'We Are Here For You',
+        'we_offer_services': 'We offer services suitable for everyone',
+        'all_rights_reserved': '© 2025 Today Proje Gayrimenkul | All Rights Reserved.',
+        'search': 'Search...',
+        'search_placeholder': 'Search...',
+        'investment_advisor': 'Your Investment Advisor',
+        'help_evaluate_investments': 'We help you evaluate your investments',
+        'real_estate_consulting': 'Real Estate Consulting',
+        'popular_ads': 'Popular Advertisements',
+        'recommended_ads': 'Recommended Advertisements',
+        'view_details': 'View Details',
+        'price': 'Price',
+        'views': 'Views',
+        'gold_ad': 'Gold Advertisement',
+        'view_all': 'View All',
+        'suitable_consulting': 'Suitable Consulting',
+        'suitable_consulting_desc': 'We provide suitable consulting services',
+        'quick_support': 'Quick Support',
+        'quick_support_desc': 'We are just a phone call away',
+        'investment_needs': 'For Your Investment Needs',
+        'contact_us': 'Contact Us',
+        'monthly': 'Monthly',
+        'about_us': 'About Us',
+        'about_description': 'We are an advertising and consulting agency specialized in the real estate sector. We help our clients promote their real estate projects in the most effective way by offering modern marketing strategies and innovative solutions. Our experienced team closely follows the dynamics of the sector and develops creative and result-oriented campaigns that will add value to your brands. Our goal is not only to be a service provider, but to contribute to the success of our clients as their trusted business partner.',
+        'our_vision': 'Our Vision',
+        'vision_description': 'To be a leading brand in the real estate sector that makes a difference in advertising and consulting services, offers innovative solutions and leads the transformations in the sector. To position ourselves as the most reliable and preferred business partner in the sector by enabling our clients to achieve their goals.',
+        'our_mission': 'Our Mission',
+        'mission_description': 'To provide our clients with creative and effective marketing solutions that will provide competitive advantage in the real estate sector. To keep customer satisfaction at the highest level by targeting maximum efficiency and success in every project. To add value to the sector with our innovative approaches and contribute to the long-term success of our clients.',
+        'for_sale_ads': 'For Sale Advertisements',
+        'for_rent_ads': 'For Rent Advertisements',
+        'contract_number': 'Contract Number',
+        'contract_number_placeholder': 'Enter contract number...',
+        'search_button': 'Search',
+        'price_not_specified': 'Price Not Specified',
+        'click_for_details': 'Click for details...',
+        'view_details': 'View Details',
+        'no_results_found': 'no results found for',
+        'no_ads_yet': 'No advertisements yet',
+        'try_different_contract': 'Try with a different contract number.',
+        'new_ads_coming_soon': 'New advertisements will be added soon.',
+        'view_all_ads': 'View All Advertisements',
+        'room_type': 'Room Type',
+        'ad_type': 'Advertisement Type',
+        'not_specified': 'Not Specified',
+        'ad_details': 'Advertisement Details',
+        'contact_for_details': 'Contact for detailed information.',
+        'photos': 'Photos',
+        'rent_price': 'Rent Price',
+        'sale_price': 'Sale Price',
+        'monthly_rent': 'Monthly',
+        'contact': 'Contact',
+        'phone': 'Phone',
+        'address': 'Address',
+        'view_on_google_maps': 'View on Google Maps'
+    },
+    'ar': {
+        'home': 'الرئيسية',
+        'about': 'من نحن',
+        'advertisements': 'الإعلانات',
+        'for_sale': 'للبيع',
+        'for_rent': 'للإيجار',
+        'contact': 'اتصل بنا',
+        'turkish': 'Türkçe',
+        'english': 'English',
+        'arabic': 'عربي',
+        'call_us': 'اتصل بنا',
+        'email': 'البريد الإلكتروني',
+        'quick_menu': 'القائمة السريعة',
+        'for_sale_ads': 'إعلانات للبيع',
+        'for_rent_ads': 'إعلانات للإيجار',
+        'we_are_here': 'نحن هنا من أجلك',
+        'we_offer_services': 'نحن نقدم خدمات مناسبة للجميع',
+        'all_rights_reserved': '© 2025 Today Proje Gayrimenkul | جميع الحقوق محفوظة.',
+        'search': 'بحث...',
+        'search_placeholder': 'بحث...',
+        'investment_advisor': 'مستشار الاستثمار الخاص بك',
+        'help_evaluate_investments': 'نساعدك في تقييم استثماراتك',
+        'real_estate_consulting': 'استشارات العقارات',
+        'popular_ads': 'الإعلانات الشائعة',
+        'recommended_ads': 'الإعلانات الموصى بها',
+        'view_details': 'عرض التفاصيل',
+        'price': 'السعر',
+        'views': 'المشاهدات',
+        'gold_ad': 'إعلان ذهبي',
+        'view_all': 'عرض الكل',
+        'suitable_consulting': 'استشارات مناسبة',
+        'suitable_consulting_desc': 'نقدم خدمات استشارية مناسبة',
+        'quick_support': 'دعم سريع',
+        'quick_support_desc': 'نحن على بُعد مكالمة هاتفية',
+        'investment_needs': 'لاحتياجاتك الاستثمارية',
+        'contact_us': 'تواصل معنا',
+        'monthly': 'شهرياً',
+        'about_us': 'من نحن',
+        'about_description': 'نحن وكالة إعلانية واستشارية متخصصة في قطاع العقارات. نساعد عملائنا في الترويج لمشاريعهم العقارية بأكثر الطرق فعالية من خلال تقديم استراتيجيات التسويق الحديثة والحلول المبتكرة. فريقنا ذو الخبرة يتابع عن كثب ديناميكيات القطاع ويطور حملات إبداعية وموجهة للنتائج تضيف قيمة لعلاماتكم التجارية. هدفنا ليس فقط أن نكون مقدم خدمة، بل أن نساهم في نجاح عملائنا كشريك أعمال موثوق.',
+        'our_vision': 'رؤيتنا',
+        'vision_description': 'أن نكون علامة تجارية رائدة في قطاع العقارات تخلق فرقاً في خدمات الإعلان والاستشارات، وتقدم حلولاً مبتكرة وتقود التحولات في القطاع. أن نركز أنفسنا كشريك أعمال الأكثر موثوقية وتفضيلاً في القطاع من خلال تمكين عملائنا من تحقيق أهدافهم.',
+        'our_mission': 'مهمتنا',
+        'mission_description': 'تزويد عملائنا بحلول تسويقية إبداعية وفعالة توفر ميزة تنافسية في قطاع العقارات. الحفاظ على رضا العملاء في أعلى مستوى من خلال استهداف أقصى كفاءة ونجاح في كل مشروع. إضافة قيمة للقطاع بمناهجنا المبتكرة والمساهمة في النجاح طويل المدى لعملائنا.',
+        'for_sale_ads': 'إعلانات للبيع',
+        'for_rent_ads': 'إعلانات للإيجار',
+        'contract_number': 'رقم العقد',
+        'contract_number_placeholder': 'أدخل رقم العقد...',
+        'search_button': 'بحث',
+        'price_not_specified': 'السعر غير محدد',
+        'click_for_details': 'انقر للتفاصيل...',
+        'view_details': 'عرض التفاصيل',
+        'no_results_found': 'لم يتم العثور على نتائج لـ',
+        'no_ads_yet': 'لا توجد إعلانات بعد',
+        'try_different_contract': 'جرب برقم عقد مختلف.',
+        'new_ads_coming_soon': 'سيتم إضافة إعلانات جديدة قريباً.',
+        'view_all_ads': 'عرض جميع الإعلانات',
+        'room_type': 'نوع الغرفة',
+        'ad_type': 'نوع الإعلان',
+        'not_specified': 'غير محدد',
+        'ad_details': 'تفاصيل الإعلان',
+        'contact_for_details': 'تواصل للحصول على معلومات مفصلة.',
+        'photos': 'الصور',
+        'rent_price': 'سعر الإيجار',
+        'sale_price': 'سعر البيع',
+        'monthly_rent': 'شهرياً',
+        'contact': 'اتصل بنا',
+        'phone': 'الهاتف',
+        'address': 'العنوان',
+        'view_on_google_maps': 'عرض على خرائط جوجل'
+    }
+}
+
+def get_text(key):
+    """Get text for current language"""
+    lang = get_language()
+    return LANGUAGE_TEXTS.get(lang, LANGUAGE_TEXTS['tr']).get(key, key)
+
+# Add template context processor
+@app.context_processor
+def inject_language():
+    return {
+        'current_language': get_language(),
+        'get_text': get_text
+    }
+
 # Static admin credentials
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'today2025!*'
@@ -103,6 +339,16 @@ def hakkimizda():
 @app.route('/iletisim')
 def iletisim():
     return render_template('iletisim.html')
+
+@app.route('/set_language/<lang>')
+def set_language_route(lang):
+    """Set language and redirect back to previous page or home"""
+    if lang in ['tr', 'en', 'ar']:
+        set_language(lang)
+        flash(f'Language changed to {get_text("turkish" if lang == "tr" else "english" if lang == "en" else "arabic")}', 'success')
+    
+    # Redirect back to the page they came from or home
+    return redirect(request.referrer or url_for('index'))
 
 @app.route('/ilanlar')
 def ilanlar():

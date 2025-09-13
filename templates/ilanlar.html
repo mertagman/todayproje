@@ -21,7 +21,7 @@
                         <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix  gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr"
                             id="div_aeb3_2">
                             <div class="gdlr-core-title-item-title-wrap">
-                                <h3 class="gdlr-core-title-item-title gdlr-core-skin-title" id="h3_aeb3_0">{% if price_type == 'kiralik' %}Kiralık İlanlar{% else %}Satılık İlanlar{% endif %}<span
+                                <h3 class="gdlr-core-title-item-title gdlr-core-skin-title" id="h3_aeb3_0">{% if price_type == 'kiralik' %}{{ get_text('for_rent_ads') }}{% else %}{{ get_text('for_sale_ads') }}{% endif %}<span
                                         class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span></h3>
                             </div>
                         </div>
@@ -34,12 +34,12 @@
                                     action="{{ url_for('ilanlar') }}" method="GET">
                                     <div class="tourmaster-tour-search-field tourmaster-tour-search-field-keywords"
                                         style="width: 80%">
-                                        <label>Sözleşme No</label>
+                                        <label>{{ get_text('contract_number') }}</label>
                                         <div class="tourmaster-tour-search-field-inner">
-                                            <input name="search" type="text" value="{{ search_query }}" placeholder="Sözleşme numarasını girin..." required/>
+                                            <input name="search" type="text" value="{{ search_query }}" placeholder="{{ get_text('contract_number_placeholder') }}" required/>
                                         </div>
                                     </div>
-                                    <input class="tourmaster-tour-search-submit" type="submit" value="Ara" />
+                                    <input class="tourmaster-tour-search-submit" type="submit" value="{{ get_text('search_button') }}" />
                                 </form>
                             </div>
                         </div>
@@ -91,14 +91,14 @@
                                                         </div>
                                                         {% endif %}
                                                         <div class="tourmaster-tour-info tourmaster-tour-info-availability">
-                                                            <i class="fa fa-eye"></i>{{ ad.view }} Görüntülenme
+                                                            <i class="fa fa-eye"></i>{{ ad.view }} {{ get_text('views') }}
                                                         </div>
                                                     </div>
                                                     <div class="tourmaster-tour-content">
                                                         {% if ad.description %}
                                                             {{ ad.description[:100] }}{% if ad.description|length > 100 %}...{% endif %}
                                                         {% else %}
-                                                            {{ ad.adres if ad.adres else 'Detaylar için tıklayın...' }}
+                                                            {{ ad.adres if ad.adres else get_text('click_for_details') }}
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -108,22 +108,22 @@
                                                             {% if ad.rent_price %}
                                                                 <span class="tourmaster-tour-discount-price">{{ ad.rent_price|format_price }} ₺</span>
                                                             {% else %}
-                                                                <span class="tourmaster-tour-discount-price">Fiyat Belirtilmemiş</span>
+                                                                <span class="tourmaster-tour-discount-price">{{ get_text('price_not_specified') }}</span>
                                                             {% endif %}
                                                         {% else %}
                                                             {% if ad.sale_price %}
                                                                 <span class="tourmaster-tour-discount-price">{{ ad.sale_price|format_price }} ₺</span>
                                                             {% else %}
-                                                                <span class="tourmaster-tour-discount-price">Fiyat Belirtilmemiş</span>
+                                                                <span class="tourmaster-tour-discount-price">{{ get_text('price_not_specified') }}</span>
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>
                                                     {% if ad.contract_id %}
                                                     <div class="tourmaster-tour-rating" style="font-size: 12px; color: #666;">
-                                                        Sözleşme No: {{ ad.contract_id }}
+                                                        {{ get_text('contract_number') }}: {{ ad.contract_id }}
                                                     </div>
                                                     {% endif %}
-                                                    <a class="tourmaster-tour-view-more" href="{{ url_for('ilan_detay', id=ad.id, price_type=price_type) }}">Detayı Gör</a>
+                                                    <a class="tourmaster-tour-view-more" href="{{ url_for('ilan_detay', id=ad.id, price_type=price_type) }}">{{ get_text('view_details') }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,20 +159,20 @@
                                     <i class="fa fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
                                     <h3 style="color: #666; margin-bottom: 10px;">
                                         {% if search_query %}
-                                            "{{ search_query }}" için sonuç bulunamadı
+                                            "{{ search_query }}" {{ get_text('no_results_found') }}
                                         {% else %}
-                                            Henüz ilan bulunmuyor
+                                            {{ get_text('no_ads_yet') }}
                                         {% endif %}
                                     </h3>
                                     <p style="color: #999;">
                                         {% if search_query %}
-                                            Farklı bir sözleşme numarası ile tekrar deneyin.
+                                            {{ get_text('try_different_contract') }}
                                         {% else %}
-                                            Yakında yeni ilanlar eklenecektir.
+                                            {{ get_text('new_ads_coming_soon') }}
                                         {% endif %}
                                     </p>
                                     {% if search_query %}
-                                        <a href="{{ url_for('ilanlar', price_type=price_type) }}" class="tourmaster-tour-view-more" style="margin-top: 20px;">Tüm İlanları Gör</a>
+                                        <a href="{{ url_for('ilanlar', price_type=price_type) }}" class="tourmaster-tour-view-more" style="margin-top: 20px;">{{ get_text('view_all_ads') }}</a>
                                     {% endif %}
                                 </div>
                             </div>

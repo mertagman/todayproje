@@ -23,15 +23,15 @@
                     <div class="tourmaster-header-price tourmaster-item-mglr" id="desktopHeaderPrice">
                         {% if price_type == 'kiralik' %}
                             {% if advertisement.rent_price %}
-                                <div class="tourmaster-header-price-ribbon">Kira Fiyatı</div>
+                                <div class="tourmaster-header-price-ribbon">{{ get_text('rent_price') }}</div>
                                 <div class="tourmaster-header-price-wrap">
                                     <div class="tourmaster-header-price-overlay"></div>
                                     <div class="tourmaster-tour-price-wrap"><span class="tourmaster-tour-price"><span
-                                                class="tourmaster-tail">{{ advertisement.rent_price|format_price }} ₺/Ay</span></span>
+                                                class="tourmaster-tail">{{ advertisement.rent_price|format_price }} ₺/{{ get_text('monthly_rent') }}</span></span>
                                     </div>
                                 </div>
                             {% else %}
-                                <div class="tourmaster-header-price-ribbon">Fiyat Belirtilmemiş</div>
+                                <div class="tourmaster-header-price-ribbon">{{ get_text('price_not_specified') }}</div>
                                 <div class="tourmaster-header-price-wrap">
                                     <div class="tourmaster-header-price-overlay"></div>
                                     <div class="tourmaster-tour-price-wrap"><span class="tourmaster-tour-price"><span
@@ -41,7 +41,7 @@
                             {% endif %}
                         {% else %}
                             {% if advertisement.sale_price %}
-                                <div class="tourmaster-header-price-ribbon">Satış Fiyatı</div>
+                                <div class="tourmaster-header-price-ribbon">{{ get_text('sale_price') }}</div>
                                 <div class="tourmaster-header-price-wrap">
                                     <div class="tourmaster-header-price-overlay"></div>
                                     <div class="tourmaster-tour-price-wrap"><span class="tourmaster-tour-price"><span
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             {% else %}
-                                <div class="tourmaster-header-price-ribbon">Fiyat Belirtilmemiş</div>
+                                <div class="tourmaster-header-price-ribbon">{{ get_text('price_not_specified') }}</div>
                                 <div class="tourmaster-header-price-wrap">
                                     <div class="tourmaster-header-price-overlay"></div>
                                     <div class="tourmaster-tour-price-wrap"><span class="tourmaster-tour-price"><span
@@ -72,16 +72,16 @@
                             <div class="tourmaster-header-price tourmaster-item-mglr">
                                 {% if price_type == 'kiralik' %}
                                     {% if advertisement.rent_price %}
-                                        <div class="tourmaster-header-price-ribbon">Kira Fiyatı</div>
+                                        <div class="tourmaster-header-price-ribbon">{{ get_text('rent_price') }}</div>
                                         <div class="tourmaster-header-price-wrap">
                                             <div class="tourmaster-header-price-overlay"></div>
                                             <div class="tourmaster-tour-price-wrap "><span class="tourmaster-tour-price"><span
-                                                        class="tourmaster-head">Aylık</span><span
+                                                        class="tourmaster-head">{{ get_text('monthly_rent') }}</span><span
                                                         class="tourmaster-tail">{{ advertisement.rent_price|format_price }} ₺</span></span>
                                             </div>
                                         </div>
                                     {% else %}
-                                        <div class="tourmaster-header-price-ribbon">Fiyat Belirtilmemiş</div>
+                                        <div class="tourmaster-header-price-ribbon">{{ get_text('price_not_specified') }}</div>
                                         <div class="tourmaster-header-price-wrap">
                                             <div class="tourmaster-header-price-overlay"></div>
                                             <div class="tourmaster-tour-price-wrap "><span class="tourmaster-tour-price"><span
@@ -92,7 +92,7 @@
                                     {% endif %}
                                 {% else %}
                                     {% if advertisement.sale_price %}
-                                        <div class="tourmaster-header-price-ribbon">Satış Fiyatı</div>
+                                        <div class="tourmaster-header-price-ribbon">{{ get_text('sale_price') }}</div>
                                         <div class="tourmaster-header-price-wrap">
                                             <div class="tourmaster-header-price-overlay"></div>
                                             <div class="tourmaster-tour-price-wrap "><span class="tourmaster-tour-price"><span
@@ -100,7 +100,7 @@
                                             </div>
                                         </div>
                                     {% else %}
-                                        <div class="tourmaster-header-price-ribbon">Fiyat Belirtilmemiş</div>
+                                        <div class="tourmaster-header-price-ribbon">{{ get_text('price_not_specified') }}</div>
                                         <div class="tourmaster-header-price-wrap">
                                             <div class="tourmaster-header-price-overlay"></div>
                                             <div class="tourmaster-tour-price-wrap "><span class="tourmaster-tour-price"><span
@@ -126,8 +126,8 @@
                                         <div class="tourmaster-content-navigation-item-container tourmaster-container">
                                             <div class="tourmaster-content-navigation-item tourmaster-item-pdlr"><a
                                                     class="tourmaster-content-navigation-tab tourmaster-active"
-                                                    href="#detail">Detay</a>
-                                                <a class="tourmaster-content-navigation-tab " href="#photos">Fotoğraflar</a>
+                                                    href="#detail">{{ get_text('ad_details') }}</a>
+                                                <a class="tourmaster-content-navigation-tab " href="#photos">{{ get_text('photos') }}</a>
                                                 <div class="tourmaster-content-navigation-slider"></div>
                                             </div>
                                         </div>
@@ -144,9 +144,9 @@
                                 <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix  gdlr-core-left-align gdlr-core-title-item-caption-bottom gdlr-core-item-pdlr"
                                     id="div_e733_4">
                                     <div class="gdlr-core-title-item-title-wrap">
-                                        <h6 class="gdlr-core-title-item-title gdlr-core-skin-title" id="h6_e733_0"><span
+                                        <h6                                                 class="gdlr-core-title-item-title gdlr-core-skin-title" id="h6_e733_0"><span
                                                 class="gdlr-core-title-item-left-icon" id="span_e733_4"><i
-                                                    class="fa fa-file-text-o"></i></span>İlan Detayı<span
+                                                    class="fa fa-file-text-o"></i></span>{{ get_text('ad_details') }}<span
                                                 class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                         </h6>
                                     </div>
@@ -159,7 +159,7 @@
                                         {% if advertisement.description %}
                                             <p>{{ advertisement.description }}</p>
                                         {% else %}
-                                            <p>Detaylı bilgi için iletişime geçiniz.</p>
+                                            <p>{{ get_text('contact_for_details') }}</p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@
                                                 id="div_e733_9">
                                                 <div class="gdlr-core-title-item-title-wrap">
                                                     <h3 class="gdlr-core-title-item-title gdlr-core-skin-title"
-                                                        id="h3_e733_2">Oda Tipi<span
+                                                        id="h3_e733_2">{{ get_text('room_type') }}<span
                                                             class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                                     </h3>
                                                 </div>
@@ -194,7 +194,7 @@
                                             <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align"
                                                 id="div_e733_10">
                                                 <div class="gdlr-core-text-box-item-content">
-                                                    <p>{{ advertisement.bed_type if advertisement.bed_type else 'Belirtilmemiş' }}</p>
+                                                    <p>{{ advertisement.bed_type if advertisement.bed_type else get_text('not_specified') }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -215,7 +215,7 @@
                                                 id="div_e733_9">
                                                 <div class="gdlr-core-title-item-title-wrap">
                                                     <h3 class="gdlr-core-title-item-title gdlr-core-skin-title"
-                                                        id="h3_e733_2">İlan Tipi<span
+                                                        id="h3_e733_2">{{ get_text('ad_type') }}<span
                                                             class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                                     </h3>
                                                 </div>
@@ -231,7 +231,7 @@
                                             <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align"
                                                 id="div_e733_10">
                                                 <div class="gdlr-core-text-box-item-content">
-                                                    <p>{{ advertisement.advertisement_type|title if advertisement.advertisement_type else 'Belirtilmemiş' }}</p>
+                                                    <p>{{ advertisement.advertisement_type|title if advertisement.advertisement_type else get_text('not_specified') }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,7 +252,7 @@
                                                 id="div_e733_13">
                                                 <div class="gdlr-core-title-item-title-wrap">
                                                     <h3 class="gdlr-core-title-item-title gdlr-core-skin-title"
-                                                        id="h3_e733_4">Sözleşme No<span
+                                                        id="h3_e733_4">{{ get_text('contract_number') }}<span
                                                             class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                                     </h3>
                                                 </div>
@@ -287,7 +287,7 @@
                                     <div class="gdlr-core-title-item-title-wrap">
                                         <h6 class="gdlr-core-title-item-title gdlr-core-skin-title" id="h6_e733_4"><span
                                                 class="gdlr-core-title-item-left-icon" id="span_e733_7"><i
-                                                    class="icon_images"></i></span>Fotoğraflar<span
+                                                    class="icon_images"></i></span>{{ get_text('photos') }}<span
                                                 class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                         </h6>
                                     </div>

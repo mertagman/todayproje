@@ -49,9 +49,9 @@
                             <div class="traveltour-top-search-cell">
                                 <form role="search" method="get" class="search-form" action="/">
                                     <input type="text" class="search-field traveltour-title-font"
-                                        placeholder="Search..." value="" name="s">
+                                        placeholder="{{ get_text('search_placeholder') }}" value="" name="s">
                                     <div class="traveltour-top-search-submit"><i class="fa fa-search"></i></div>
-                                    <input type="submit" class="search-submit" value="Search">
+                                    <input type="submit" class="search-submit" value="{{ get_text('search') }}">
                                     <div class="traveltour-top-search-close"><i class="icon_close"></i></div>
                                 </form>
                             </div>
@@ -65,27 +65,25 @@
                             data-slide="right">
                             <ul id="menu-main-navigation" class="m-menu">
                                 <li class="menu-item {% if request.endpoint == 'index' %}current-menu-item{% endif %}">
-                                    <a href="/">Anasayfa</a></li>
+                                    <a href="/">{{ get_text('home') }}</a></li>
                                 <li
                                     class="menu-item {% if request.endpoint == 'hakkimizda' %}current-menu-item{% endif %}">
-                                    <a href="/hakkimizda">Hakkımızda</a></li>
+                                    <a href="/hakkimizda">{{ get_text('about') }}</a></li>
                                 <li class="menu-item menu-item-has-children"><a
-                                        href="{{ url_for('ilanlar', price_type='satilik') }}">İlanlar</a>
+                                        href="{{ url_for('ilanlar', price_type='satilik') }}">{{ get_text('advertisements') }}</a>
                                     <ul class="sub-menu">
                                         <li class="menu-item"><a
-                                                href="{{ url_for('ilanlar', price_type='satilik') }}">Satılık</a></li>
+                                                href="{{ url_for('ilanlar', price_type='satilik') }}">{{ get_text('for_sale') }}</a></li>
                                         <li class="menu-item"><a
-                                                href="{{ url_for('ilanlar', price_type='kiralik') }}">Kiralık</a></li>
+                                                href="{{ url_for('ilanlar', price_type='kiralik') }}">{{ get_text('for_rent') }}</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-item"><a href="/iletisim">İLETİŞİM</a></li>
-                                <li class="menu-item menu-item-has-children"><a href="#">Türkçe</a>
+                                <li class="menu-item"><a href="/iletisim">{{ get_text('contact') }}</a></li>
+                                <li class="menu-item menu-item-has-children"><a href="#">{{ get_text('turkish' if current_language == 'tr' else 'english' if current_language == 'en' else 'arabic') }}</a>
                                     <ul class="sub-menu">
-                                        <li class="menu-item"><a
-                                                href="finland-helsinki-santa-claus-town-8-days.html">English</a></li>
-                                        <li class="menu-item"><a
-                                                href="america-grand-canyon-golden-gate-bridge-las-vegas.html">عربي</a>
-                                        </li>
+                                        <li class="menu-item"><a href="{{ url_for('set_language_route', lang='en') }}">{{ get_text('english') }}</a></li>
+                                        <li class="menu-item"><a href="{{ url_for('set_language_route', lang='ar') }}">{{ get_text('arabic') }}</a></li>
+                                        <li class="menu-item"><a href="{{ url_for('set_language_route', lang='tr') }}">{{ get_text('turkish') }}</a></li>
                                     </ul>
                                 </li>
 
@@ -121,32 +119,35 @@
                                 <ul id="menu-main-navigation-1" class="sf-menu">
                                     <li
                                         class="menu-item {% if request.endpoint == 'index' %}current-menu-item {% endif %}traveltour-normal-menu">
-                                        <a href="/" class="sf-with-ul-pre">Anasayfa</a></li>
+                                        <a href="/" class="sf-with-ul-pre">{{ get_text('home') }}</a></li>
                                     <li
                                         class="menu-item {% if request.endpoint == 'hakkimizda' %}current-menu-item {% endif %}traveltour-normal-menu">
-                                        <a href="/hakkimizda" class="sf-with-ul-pre">Hakkımızda</a></li>
+                                        <a href="/hakkimizda" class="sf-with-ul-pre">{{ get_text('about') }}</a></li>
                                     <li class="menu-item menu-item-has-children traveltour-normal-menu"><a
                                             href="{{ url_for('ilanlar', price_type='satilik') }}"
-                                            class="sf-with-ul-pre">İlanlar</a>
+                                            class="sf-with-ul-pre">{{ get_text('advertisements') }}</a>
                                         <ul class="sub-menu">
                                             <li class="menu-item" data-size="60"><a
-                                                    href="{{ url_for('ilanlar', price_type='satilik') }}">Satılık</a>
+                                                    href="{{ url_for('ilanlar', price_type='satilik') }}">{{ get_text('for_sale') }}</a>
                                             </li>
                                             <li class="menu-item" data-size="60"><a
-                                                    href="{{ url_for('ilanlar', price_type='kiralik') }}">Kiralık</a>
+                                                    href="{{ url_for('ilanlar', price_type='kiralik') }}">{{ get_text('for_rent') }}</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="menu-item traveltour-normal-menu"><a
-                                            href="/iletisim">İLETİŞİM</a></li>
+                                            href="/iletisim">{{ get_text('contact') }}</a></li>
                                     <li class="menu-item  menu-item-has-children traveltour-normal-menu"><a href="#"
-                                            class="sf-with-ul-pre">Türkçe</a>
+                                            class="sf-with-ul-pre">{{ get_text('turkish' if current_language == 'tr' else 'english' if current_language == 'en' else 'arabic') }}</a>
                                         <ul class="sub-menu">
                                             <li class="menu-item" data-size="60"><a
-                                                    href="finland-helsinki-santa-claus-town-8-days.html">English</a>
+                                                    href="{{ url_for('set_language_route', lang='en') }}">{{ get_text('english') }}</a>
                                             </li>
                                             <li class="menu-item" data-size="60"><a
-                                                    href="america-grand-canyon-golden-gate-bridge-las-vegas.html">عربي</a>
+                                                    href="{{ url_for('set_language_route', lang='ar') }}">{{ get_text('arabic') }}</a>
+                                            </li>
+                                            <li class="menu-item" data-size="60"><a
+                                                    href="{{ url_for('set_language_route', lang='tr') }}">{{ get_text('turkish') }}</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -181,8 +182,7 @@
                                         style="padding-bottom: 5px ;">
                                         <div class="gdlr-core-title-item-title-wrap ">
                                             <h3 class="gdlr-core-title-item-title gdlr-core-skin-title "
-                                                style="font-size: 17px ;text-transform: none ;color: #f97150 ;">Bizi
-                                                Arayın<span
+                                                style="font-size: 17px ;text-transform: none ;color: #f97150 ;">{{ get_text('call_us') }}<span
                                                     class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                             </h3>
                                         </div>
@@ -196,7 +196,7 @@
                                         <div class="gdlr-core-title-item-title-wrap ">
                                             <h3 class="gdlr-core-title-item-title gdlr-core-skin-title "
                                                 style="font-size: 17px ;text-transform: none ;color: #f97150 ;">
-                                                Email<span
+                                                {{ get_text('email') }}<span
                                                     class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
                                             </h3>
                                         </div>
@@ -208,29 +208,27 @@
                         <div class="traveltour-footer-column traveltour-item-pdlr traveltour-column-15">
                             <div id="gdlr-core-custom-menu-widget-3"
                                 class="widget widget_gdlr-core-custom-menu-widget traveltour-widget">
-                                <h3 class="traveltour-widget-title"><span class="traveltour-widget-head-text">Hızlı
-                                        Menü</span></h3><span class="clear"></span>
+                                <h3 class="traveltour-widget-title"><span class="traveltour-widget-head-text">{{ get_text('quick_menu') }}
+                                        </span></h3><span class="clear"></span>
                                 <div class="menu-support-container">
                                     <ul id="menu-support"
                                         class="gdlr-core-custom-menu-widget gdlr-core-menu-style-plain">
-                                        <li class="menu-item"><a href="/hakkimizda">Hakkımızda</a></li>
+                                        <li class="menu-item"><a href="/hakkimizda">{{ get_text('about') }}</a></li>
                                         <li class="menu-item"><a
-                                                href="{{ url_for('ilanlar', price_type='satilik') }}">Satılık
-                                                İlanlar</a></li>
+                                                href="{{ url_for('ilanlar', price_type='satilik') }}">{{ get_text('for_sale_ads') }}</a></li>
                                         <li class="menu-item"><a
-                                                href="{{ url_for('ilanlar', price_type='kiralik') }}">Kiralık
-                                                İlanlar</a></li>
-                                        <li class="menu-item"><a href="/iletisim">İletişim</a></li>
+                                                href="{{ url_for('ilanlar', price_type='kiralik') }}">{{ get_text('for_rent_ads') }}</a></li>
+                                        <li class="menu-item"><a href="/iletisim">{{ get_text('contact') }}</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="traveltour-footer-column traveltour-item-pdlr traveltour-column-15">
                             <div id="text-15" class="widget widget_text traveltour-widget">
-                                <h3 class="traveltour-widget-title"><span class="traveltour-widget-head-text">Sizin İçin
-                                        Buradayız</span></h3><span class="clear"></span>
+                                <h3 class="traveltour-widget-title"><span class="traveltour-widget-head-text">{{ get_text('we_are_here') }}
+                                        </span></h3><span class="clear"></span>
                                 <div class="textwidget">
-                                    <p>Herkes için uygun hizmetler sunuyoruz
+                                    <p>{{ get_text('we_offer_services') }}
                                         <br />
                                     </p>
                                 </div>
@@ -240,8 +238,7 @@
                 </div>
                 <div class="traveltour-copyright-wrapper ">
                     <div class="traveltour-copyright-container traveltour-container clearfix">
-                        <div class="traveltour-copyright-left traveltour-item-pdlr">© 2025 Today Proje Gayrimenkul | Tüm
-                            Hakları Saklıdır.</div>
+                        <div class="traveltour-copyright-left traveltour-item-pdlr">{{ get_text('all_rights_reserved') }}</div>
                     </div>
                 </div>
             </footer>
