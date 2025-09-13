@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from functools import wraps
 import sqlite3
 import os
-from datetime import datetime
+import json
+import random
+from datetime import datetime, date
 from werkzeug.utils import secure_filename
 from database import init_db, get_db_connection
 
@@ -21,6 +23,9 @@ init_db()
 
 # Ensure upload directory exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Metadata file path for tracking view updates
+METADATA_FILE = 'static/view_update_metadata.json'
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -54,6 +59,73 @@ def format_price_display(price):
     if not price:
         return None
     return '{:,.0f}'.format(price).replace(',', '.')
+
+def get_last_update_date():
+    """Get the last view update date from metadata file"""
+    try:
+        if os.path.exists(METADATA_FILE):
+            with open(METADATA_FILE, 'r') as f:
+                data = json.load(f)
+                return datetime.strptime(data['last_update'], '%Y-%m-%d').date()
+    except (FileNotFoundError, KeyError, ValueError):
+        pass
+    return None
+
+def save_update_date():
+    """Save current date as last update date in metadata file"""
+    try:
+        data = {'last_update': date.today().strftime('%Y-%m-%d')}
+        with open(METADATA_FILE, 'w') as f:
+            json.dump(data, f)
+    except Exception as e:
+        print(f"Error saving update date: {e}")
+
+def update_views():
+    """Update all advertisement views with random increments based on days since last update"""
+    last_update = get_last_update_date()
+    current_date = date.today()
+    
+    if last_update is None:
+        # First time running, just save current date
+        save_update_date()
+        return
+    
+    # Calculate days since last update
+    days_diff = (current_date - last_update).days
+    
+    if days_diff == 0:
+        # Already updated today, skip
+        return
+    
+    # Update views for all active advertisements
+    conn = get_db_connection()
+    
+    try:
+        # Get all active advertisements
+        advertisements = conn.execute('''
+            SELECT id FROM ilanlar WHERE status = 1
+        ''').fetchall()
+        
+        for ad in advertisements:
+            # Generate random increment between 4 and 15, multiplied by days
+            random_increment = random.randint(4, 15) * days_diff
+            
+            # Update the view count
+            conn.execute('''
+                UPDATE ilanlar SET view = view + ? WHERE id = ?
+            ''', (random_increment, ad['id']))
+        
+        conn.commit()
+        print(f"Updated views for {len(advertisements)} advertisements with {days_diff} days of increments")
+        
+    except Exception as e:
+        print(f"Error updating views: {e}")
+        conn.rollback()
+    finally:
+        conn.close()
+    
+    # Save current date as last update
+    save_update_date()
 
 # Add template filter for price formatting
 app.jinja_env.filters['format_price'] = format_price_display
@@ -308,6 +380,11 @@ def login_required(f):
 
 @app.route('/')
 def index():
+    # Check if views have been updated in this session
+    if not session.get('is_view_updated', False):
+        update_views()
+        session['is_view_updated'] = True
+    
     conn = get_db_connection()
     
     # Get popular advertisements (highest views, max 5)
@@ -334,10 +411,20 @@ def index():
 
 @app.route('/hakkimizda')
 def hakkimizda():
+    # Check if views have been updated in this session
+    if not session.get('is_view_updated', False):
+        update_views()
+        session['is_view_updated'] = True
+    
     return render_template('about.html')
 
 @app.route('/iletisim')
 def iletisim():
+    # Check if views have been updated in this session
+    if not session.get('is_view_updated', False):
+        update_views()
+        session['is_view_updated'] = True
+    
     return render_template('iletisim.html')
 
 @app.route('/set_language/<lang>')
@@ -351,6 +438,11 @@ def set_language_route(lang):
 
 @app.route('/ilanlar')
 def ilanlar():
+    # Check if views have been updated in this session
+    if not session.get('is_view_updated', False):
+        update_views()
+        session['is_view_updated'] = True
+    
     # Get page number from query parameters (default to 1)
     page = request.args.get('page', 1, type=int)
     # Get search query from query parameters
@@ -443,14 +535,6 @@ def ilan_detay(id):
     if not advertisement:
         flash('İlan bulunamadı!', 'error')
         return redirect(url_for('ilanlar'))
-    
-    # Increment view count
-    conn = get_db_connection()
-    conn.execute('''
-        UPDATE ilanlar SET view = view + 1 WHERE id = ?
-    ''', (id,))
-    conn.commit()
-    conn.close()
     
     return render_template('ilan_detay.html', advertisement=advertisement, price_type=price_type)
 
